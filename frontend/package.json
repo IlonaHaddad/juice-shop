@@ -94,7 +94,7 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "stylelint": "^13.8.0",
-    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-config-sass-guidelines": "^12.1.0",
     "stylelint-scss": "^3.18.0",
     "ts-node": "^10.9.2"
   }
