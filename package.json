@@ -50,7 +50,7 @@
   "scripts": {
     "build:frontend": "cd frontend && npm run build",
     "build:server": "tsc",
-    "cypress:open": "cypress open",
+    "cypress:open": "cypess open",
     "cypress:run": "cypress run",
     "frisby": "nyc --report-dir=./build/reports/coverage/api-tests jest --silent --runInBand --forceExit",
     "postinstall": "cd frontend && npm install --legacy-peer-deps && cd .. && npm run build:frontend && (npm run --silent build:server || cd .)",
