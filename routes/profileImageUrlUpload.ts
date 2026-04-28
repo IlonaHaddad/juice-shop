@@ -13,10 +13,20 @@ import { UserModel } from '../models/user'
 import * as utils from '../lib/utils'
 import logger from '../lib/logger'
 
+const allowedImageUrls = new Set([
+  'https://trusted.cdn.com/images/',
+  'https://images.example.com/',
+  'https://assets.safe-site.org/uploads/'
+])
+
 export function profileImageUrlUpload () {
   return async (req: Request, res: Response, next: NextFunction) => {
     if (req.body.imageUrl !== undefined) {
       const url = req.body.imageUrl
+      if (!allowedImageUrls.has(url)) {
+        next(new Error('Blocked illegal activity by ' + req.socket.remoteAddress))
+        return
+      }
       if (url.match(/(.)*solve\/challenges\/server-side(.)*/) !== null) req.app.locals.abused_ssrf_bug = true
       const loggedInUser = security.authenticatedUsers.get(req.cookies.token)
       if (loggedInUser) {
