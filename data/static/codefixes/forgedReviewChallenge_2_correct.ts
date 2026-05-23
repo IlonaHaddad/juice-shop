@@ -1,8 +1,10 @@
+import sanitize from 'mongo-sanitize'
+
 export function updateProductReviews () {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = security.authenticatedUsers.from(req)
     db.reviewsCollection.update(
-      { _id: req.body.id, author: user.data.email },
+      { _id: sanitize(req.body.id), author: sanitize(user.data.email) },
       { $set: { message: req.body.message } },
       { multi: true }
     ).then(
