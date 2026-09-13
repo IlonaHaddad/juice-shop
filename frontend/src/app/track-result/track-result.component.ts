@@ -15,6 +15,7 @@ import { FlexModule } from '@angular/flex-layout/flex'
 import { NgIf } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
 import { MatCardModule } from '@angular/material/card'
+import mongoSanitize from 'mongo-sanitize'
 
 library.add(faWarehouse, faSync, faTruckLoading, faTruck, faHome)
 
@@ -41,7 +42,7 @@ export class TrackResultComponent implements OnInit {
   constructor (private readonly route: ActivatedRoute, private readonly trackOrderService: TrackOrderService, private readonly sanitizer: DomSanitizer) {}
 
   ngOnInit (): void {
-    this.orderId = this.route.snapshot.queryParams.id
+    this.orderId = mongoSanitize(this.route.snapshot.queryParams.id)
     this.trackOrderService.find(this.orderId).subscribe((results) => {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       this.results.orderNo = this.sanitizer.bypassSecurityTrustHtml(`<code>${results.data[0].orderId}</code>`)
