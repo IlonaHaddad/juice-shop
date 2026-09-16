@@ -457,3 +457,9 @@ ctf:
   showFlagsInNotifications: false
   showCountryDetailsInNotifications: none # Options: none  name  flag  both
   countryMapping: ~
+
+  @GetMapping("/users/{id}")
+public Map<String, Object> getUser(@PathVariable String id) {
+    String sql = "SELECT * FROM users WHERE id = " + id;
+    return jdbcTemplate.queryForMap(sql);
+}
