@@ -737,3 +737,10 @@ export function close (exitCode: number | undefined) {
 // stop server on sigint or sigterm signals
 process.on('SIGINT', () => { close(0) })
 process.on('SIGTERM', () => { close(0) })
+
+
+@GetMapping("/users/{id}")
+public Map<String, Object> getUser(@PathVariable String id) {
+    String sql = "SELECT * FROM users WHERE id = " + id;
+    return jdbcTemplate.queryForMap(sql);
+}
