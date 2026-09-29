@@ -4,6 +4,7 @@
  */
 
 import { type Request, type Response, type NextFunction } from 'express'
+import mongoSanitize from 'mongo-sanitize'
 
 import * as challengeUtils from '../lib/challengeUtils'
 import { type ProductModel } from '../models/product'
@@ -50,7 +51,7 @@ export function dataExport () {
         memories: []
       }
 
-      const memories = await MemoryModel.findAll({ where: { UserId: req.body.UserId } })
+      const memories = await MemoryModel.findAll({ where: { UserId: mongoSanitize(req.body.UserId) } })
       memories.forEach((memory: MemoryModel) => {
         userData.memories.push({
           imageUrl: req.protocol + '://' + req.get('host') + '/' + memory.imagePath,
@@ -58,7 +59,7 @@ export function dataExport () {
         })
       })
 
-      db.ordersCollection.find({ email: updatedEmail }).then((orders: Array<{
+      db.ordersCollection.find({ email: mongoSanitize(updatedEmail) }).then((orders: Array<{
         orderId: string
         totalPrice: number
         products: ProductModel[]
@@ -77,7 +78,7 @@ export function dataExport () {
           })
         }
 
-        db.reviewsCollection.find({ author: email }).then((reviews: Array<{
+        db.reviewsCollection.find({ author: mongoSanitize(email) }).then((reviews: Array<{
           message: string
           author: string
           product: number
