@@ -8,6 +8,7 @@ import { AllHtmlEntities as Entities } from 'html-entities'
 import config from 'config'
 import pug from 'pug'
 import fs from 'node:fs/promises'
+import vm from 'node:vm'
 
 import * as challengeUtils from '../lib/challengeUtils'
 import { themes } from '../views/themes/themes'
@@ -59,7 +60,7 @@ export function getUserProfile () {
         if (!code) {
           throw new Error('Username is null')
         }
-        username = eval(code) // eslint-disable-line no-eval
+        username = vm.runInNewContext(code, {}, { timeout: 1000 })
       } catch (err) {
         username = '\\' + username
       }
